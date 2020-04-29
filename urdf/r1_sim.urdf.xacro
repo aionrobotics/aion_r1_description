@@ -5,6 +5,7 @@
   <!-- Importing external urdf/xacros. -->
 	<xacro:include filename="$(find aion_r1_description)/urdf/materials.urdf.xacro" />
   <xacro:include filename="$(find aion_r1_gazebo)/models/r1_sim.gazebo" />
+  <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />
 
   <!-- Defining macros. -->
 	<xacro:macro name="wheel" params="prefix reflect_x:=1 reflect_y:=1 mimic:=false">
@@ -230,6 +231,100 @@
     <parent link="top_link" />
     <child link="housing_link" />
   </joint>
+
+  <xacro:arg name="use_nominal_extrinsics" default="false" />
+  <!--Front Camera-->
+  <sensor_d435 name="camera1" parent="base_link">
+    <origin xyz="0.1880 0 0.0505" rpy="0 0 0"/>
+  </sensor_d435>
+
+  <joint name="gazebo_cam_joint" type="fixed">
+    <axis xyz="0 0 0" />
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="camera1_link"/>
+    <child link="camera_link"/>
+  </joint>
+
+  <!-- Camera -->
+  <link name="camera_link">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+    <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </collision>
+
+    <!-- <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+    <box size="0.1 0.1 0.1"/>
+      </geometry>
+      <material name="red"/>
+    </visual> -->
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+  <!--Gazebo Camera-->
+  <gazebo reference="camera_link">
+    <sensor type="depth" name="camera1">
+      <always_on>1</always_on>
+      <visualize>true</visualize>
+        <update_rate>30.0</update_rate>
+        <topic>camera</topic>
+        <camera name="depth_cam">
+            <horizontal_fov>1.3962634</horizontal_fov>
+            <image>
+                <width>1080</width>
+                <height>720</height>
+                <format>R8G8B8</format>
+            </image>
+            <clip>
+                <near>0.02</near>
+                <far>300</far>
+            </clip>
+            <noise>
+                <type>gaussian</type>
+                    <!-- Noise is sampled independently per pixel on each frame.  
+                    That pixel's noise value is added to each of its color
+                    channels, which at that point lie in the range [0,1]. -->
+                <mean>0.0</mean>
+                <stddev>0.007</stddev>
+            </noise>
+        </camera>
+      <plugin name="camera_controller" filename="libDepthCameraPlugin.so">
+        <CxPrime>0</CxPrime>
+        <updateRate>10.0</updateRate>
+        <cameraName>depth_cam1</cameraName>
+        <frameName>camera1_link</frameName>
+        <hackBaseline>0.07</hackBaseline>
+        <distortionK1>1.0</distortionK1>
+        <distortionK2>1.0</distortionK2>
+        <distortionK3>1.0</distortionK3>
+        <distortionT1>1.0</distortionT1>
+        <distortionT2>1.0</distortionT2>
+      </plugin>
+      <plugin name="kinect" filename="libgazebo_ros_openni_kinect.so">
+        <CxPrime>0</CxPrime>
+        <updateRate>10.0</updateRate>
+        <imageTopicName>image_raw</imageTopicName>
+        <pointCloudTopicName>points</pointCloudTopicName>
+        <depthImageTopicName>image_depth</depthImageTopicName>
+        <depthImageCameraInfoTopicName>depth_camera_info</depthImageCameraInfoTopicName>
+        <pointCloudCutoff>0.001</pointCloudCutoff>
+        <cameraName>kinect</cameraName>
+        <frameName>camera1_link</frameName>
+        <distortionK1>0.00000001</distortionK1>
+        <distortionK2>0.00000001</distortionK2>
+        <distortionK3>0.00000001</distortionK3>
+        <distortionT1>0.00000001</distortionT1>
+        <distortionT2>0.00000001</distortionT2>
+      </plugin>
+    </sensor>
+  </gazebo>
 
   <!-- Building links/joints from macros. -->
   <xacro:antenna prefix="l" />
