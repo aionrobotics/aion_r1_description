@@ -29,7 +29,7 @@
 	    	</inertial>
 	    	<visual>
 	    		<geometry>
-	    			<mesh filename="package://aion_r1_description/R1Mesh/wheel.stl" />
+	    			<mesh filename="package://aion_r1_description/R1Mesh/wheel.stl" scale="0.01 0.01 0.01"/>
 				</geometry>
 				<material name="black" />
 			</visual>
@@ -83,7 +83,7 @@
       </inertial>
       <visual>
         <geometry>
-          <mesh filename="package://aion_r1_description/R1Mesh/antenna.stl" />
+          <mesh filename="package://aion_r1_description/R1Mesh/antenna.stl" scale="0.01 0.01 0.01"/>
         </geometry>
         <material name="black" />
       </visual>
@@ -123,7 +123,7 @@
     </inertial>
     <visual>
       <geometry>
-        <mesh filename="package://aion_r1_description/R1Mesh/body.stl" />
+        <mesh filename="package://aion_r1_description/R1Mesh/body.stl" scale="0.01 0.01 0.01" />
       </geometry>
       <material name="gray" />
     </visual>
@@ -155,7 +155,7 @@
     </inertial>
     <visual>
       <geometry>
-        <mesh filename="package://aion_r1_description/R1Mesh/top.stl" />
+        <mesh filename="package://aion_r1_description/R1Mesh/top.stl" scale="0.01 0.01 0.01"/>
       </geometry>
       <material name="white" />
     </visual>
@@ -179,7 +179,7 @@
     </inertial>
     <visual>
       <geometry>
-        <mesh filename="package://aion_r1_description/R1Mesh/battery.stl" />
+        <mesh filename="package://aion_r1_description/R1Mesh/battery.stl" scale="0.01 0.01 0.01"/>
       </geometry>
       <material name="black" />
     </visual>
@@ -203,7 +203,7 @@
     </inertial>
     <visual>
       <geometry>
-        <mesh filename="package://aion_r1_description/R1Mesh/housing.stl" />
+        <mesh filename="package://aion_r1_description/R1Mesh/housing.stl" scale="0.01 0.01 0.01"/>
       </geometry>
       <material name="black" />
     </visual>
