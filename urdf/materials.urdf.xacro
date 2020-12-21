@@ -14,4 +14,8 @@
 		<color rgba="0.9 0.9 0.9 1.0" />
 	</material>
 
+	<material name="safety_orange">
+		<color rgba="1.0 0.4 0.0 1.0" />
+	</material>
+
 </robot>
